@@ -1,0 +1,253 @@
+:root {
+  --bg: #f0f2f5;
+  --panel: #ffffff;
+  --border: #dcdcdc;
+  --radius: 12px;
+  --shadow: 0 4px 8px rgba(0,0,0,0.08);
+
+  --primary: #2c3e50;
+  --primary-hover: #34495e;
+  --accent: #2980b9;
+  --accent-hover: #3498db;
+  --badge-bg: #3498db;
+  --badge-color: white;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: #333;
+}
+
+header {
+  background: var(--primary);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+h1 { margin: 0; font-size: 24px; }
+h2 { margin-top: 0; font-size: 20px; }
+
+/* Main layout */
+main {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Overview horizontal */
+.overview {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+}
+
+.overview h2 {
+  color: var(--accent);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.overview-categories {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 8px;
+}
+
+.overview-category {
+  min-width: 185px;
+  background: #ffffff;
+  border-radius: var(--radius);
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.overview-category:hover {
+  transform: translateY(-4px);
+}
+
+.overview-category h3 {
+  margin-top: 0;
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--accent);
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 4px;
+}
+
+.item-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6px 0;
+  font-size: 14px;
+  padding: 4px 0;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.item-line:hover {
+  background: #f0f4f8;
+}
+
+.item-badge {
+  background: var(--accent);
+  color: white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 13px;
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+  display: inline-block;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.item-badge.updated {
+  transform: scale(1.3);
+  background: #3498db;
+}
+
+/* Profils */
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.profile {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+
+.profile:hover { transform: translateY(-3px); }
+
+.profile h3 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.category {
+  margin-bottom: 12px;
+}
+
+.category h4 {
+  margin: 6px 0;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+label { display: block; margin-left: 8px; font-size: 14px; }
+
+/* Buttons */
+.btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn:hover { background: var(--accent-hover);}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn.tiny { padding: 4px 8px; font-size: 12px; }
+
+.btn.floating {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50px;
+  box-shadow: var(--shadow);
+  font-weight: bold;
+}
+
+/* Slide Panel */
+.slide-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--panel);
+  display: flex;
+  flex-direction: column;
+  transition: right 0.35s ease;
+  z-index: 998;
+}
+
+.slide-panel.open { right: 0; }
+
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--accent);
+  color: white;
+}
+
+.slide-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  background: #f0f2f5;
+}
+
+.slide-content img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.slide-header .btn.ghost {
+  background: rgba(255,255,255,0.15); 
+  color: white;
+  border: 1px solid rgba(255,255,255,0.5);
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.slide-header .btn.ghost:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.profile.tank {
+  background: #fdf8f0;
+}
+
+.profile.heal {
+  background: #f0fff0;
+}
+
+.profile.dps {
+  background: #fff0f0;
+}
+
