@@ -32,7 +32,7 @@ const categories = {
   ]
 };
 
-// Catégories visibles par rôle
+// Catégories
 function getCategoriesForProfile(profileName){
   if(profileName.startsWith("DPS")){
     return ["Companions Stats","Companions buff/debuff","Artis"];
@@ -93,14 +93,18 @@ function updateOverview(){
   const categoryMap = {};
   Object.keys(categories).forEach(cat => {
     categoryMap[cat] = {};
-    categories[cat].forEach(item => categoryMap[cat][item] = 0);
+    categories[cat].forEach(item => {
+      categoryMap[cat][item] = { count: 0, profiles: [] };
+    });
   });
 
   checked.forEach(cb => {
     const item = cb.dataset.item;
+    const profile = cb.dataset.profile;
     for(const [cat, items] of Object.entries(categoryMap)){
       if(items.hasOwnProperty(item)){
-        items[item]++;
+        items[item].count++;
+        items[item].profiles.push(profile);
         break;
       }
     }
@@ -117,7 +121,7 @@ function updateOverview(){
     h3.textContent = cat;
     catDiv.appendChild(h3);
 
-    for(const [item, count] of Object.entries(items)){
+    for(const [item, data] of Object.entries(items)){
       const line = document.createElement("div");
       line.className = "item-line";
 
@@ -126,15 +130,38 @@ function updateOverview(){
 
       const badge = document.createElement("span");
       badge.className = "item-badge";
-      badge.textContent = count;
+      badge.textContent = data.count;
 
       line.appendChild(name);
       line.appendChild(badge);
+
+      // jetons profils
+      data.profiles.forEach(p => {
+        const profBadge = document.createElement("span");
+        profBadge.className = "profile-tag " + getRoleClass(p);
+        profBadge.textContent = formatProfileShort(p);
+        line.appendChild(profBadge);
+      });
+
       catDiv.appendChild(line);
     }
 
     overviewDiv.appendChild(catDiv);
   }
+}
+
+// Helper
+function formatProfileShort(profile){
+  if(profile.startsWith("Tank")) return "T" + profile.split(" ")[1];
+  if(profile.startsWith("Heal")) return "H" + profile.split(" ")[1];
+  if(profile.startsWith("DPS"))  return "D" + profile.split(" ")[1];
+  return profile;
+}
+function getRoleClass(profile){
+  if(profile.startsWith("Tank")) return "tank";
+  if(profile.startsWith("Heal")) return "heal";
+  if(profile.startsWith("DPS")) return "dps";
+  return "";
 }
 
 // Initial overview
