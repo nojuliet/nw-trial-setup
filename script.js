@@ -132,8 +132,9 @@ function updateOverview(){
       badge.className = "item-badge";
       badge.textContent = data.count;
 
-      line.appendChild(name);
       line.appendChild(badge);
+      line.appendChild(name);
+      
 
       // jetons profils
       data.profiles.forEach(p => {
