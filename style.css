@@ -4,13 +4,15 @@
   --border: #dcdcdc;
   --radius: 12px;
   --shadow: 0 4px 8px rgba(0,0,0,0.08);
-
   --primary: #2c3e50;
   --primary-hover: #34495e;
   --accent: #2980b9;
   --accent-hover: #3498db;
   --badge-bg: #3498db;
   --badge-color: white;
+  --tank-color: #f39c12;
+  --heal-color: #27ae60;
+  --dps-color: #c0392b;
 }
 
 body {
@@ -119,7 +121,7 @@ main {
   background: #3498db;
 }
 
-/* Jetons des profils dans l’overview */
+/* Jetons des profils dans l'overview */
 .profile-tags {
   display: flex;
   flex-wrap: wrap;
@@ -138,9 +140,9 @@ main {
 }
 
 /* Couleurs par rôle */
-.profile-tag.tank { background: #f39c12; color: white; }
-.profile-tag.heal { background: #27ae60; color: white; }
-.profile-tag.dps  { background: #c0392b; color: white; }
+.profile-tag.tank { background: var(--tank-color); color: white; }
+.profile-tag.heal { background: var(--heal-color); color: white; }
+.profile-tag.dps  { background: var(--dps-color); color: white; }
 
 /* Profils */
 .profiles-grid {
@@ -173,6 +175,12 @@ main {
   margin: 6px 0;
   font-size: 14px;
   color: var(--accent);
+  display: flex;
+  align-items: center;
+}
+
+.category h4 i {
+  margin-right: 8px;
 }
 
 label { display: block; margin-left: 8px; font-size: 14px; }
@@ -205,6 +213,20 @@ label { display: block; margin-left: 8px; font-size: 14px; }
   border-radius: 50px;
   box-shadow: var(--shadow);
   font-weight: bold;
+}
+
+.btn.fetch-data {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  border-radius: 50px;
+  box-shadow: var(--shadow);
+  font-weight: bold;
+  background: var(--heal-color);
+}
+
+.btn.fetch-data:hover {
+  background: #219653;
 }
 
 /* Slide Panel */
@@ -266,12 +288,152 @@ label { display: block; margin-left: 8px; font-size: 14px; }
 /* Couleur des cartes profils */
 .profile.tank {
   background: #fdf8f0;
+  border-left: 4px solid var(--tank-color);
 }
 
 .profile.heal {
   background: #f0fff0;
+  border-left: 4px solid var(--heal-color);
 }
 
 .profile.dps {
   background: #fff0f0;
+  border-left: 4px solid var(--dps-color);
+}
+
+/* Configuration panel */
+.config-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.config-group {
+  margin-bottom: 15px;
+}
+
+.config-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.config-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.loading {
+  display: none;
+  text-align: center;
+  padding: 20px;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--accent);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Status message */
+#status {
+  padding: 12px;
+  background: var(--panel);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  font-weight: 500;
+}
+
+.status-loading {
+  color: var(--accent);
+}
+
+.status-success {
+  color: var(--heal-color);
+  background-color: #e8f5e9;
+}
+
+.status-error {
+  color: var(--dps-color);
+  background-color: #ffebee;
+}
+
+/* Summary section */
+.summary {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.summary-item {
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border-radius: var(--radius);
+  text-align: center;
+  flex: 1;
+  min-width: 150px;
+}
+
+.summary-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.summary-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.tank .summary-value { color: var(--tank-color); }
+.heal .summary-value { color: var(--heal-color); }
+.dps .summary-value { color: var(--dps-color); }
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-options {
+  display: flex;
+  gap: 15px;
+}
+
+.filter-select {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  background: white;
+  font-size: 0.95rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #ccc;
 }

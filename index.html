@@ -2,28 +2,100 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Neverwinter Run Trial Setup</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <h1>Neverwinter Run Trial Setup</h1>
-    <p>Party Setup</p>
+    <p>Party Setup - Google Sheets Integration</p>
   </header>
 
   <main>
+    <!-- Configuration panel -->
+    <section class="config-panel">
+      <h2>Configuration</h2>
+      <div class="config-group">
+        <label for="sheet-id">ID de la Google Sheet</label>
+        <input type="text" id="sheet-id" placeholder="Your Sheet ID" value="">
+      </div>
+      <button id="fetch-data" class="btn">Récupérer les données</button>
+    </section>
+    
+    <!-- Status message -->
+    <div id="status" class="status-loading">
+      <i class="fas fa-spinner fa-spin"></i> En attente de chargement des données...
+    </div>
+    
+    <!-- Controls -->
+    <div class="controls">
+      <div class="filter-options">
+        <select id="roleFilter" class="filter-select">
+          <option value="all">Tous les rôles</option>
+          <option value="Tank">Tank</option>
+          <option value="Heal">Heal</option>
+          <option value="DPS">DPS</option>
+        </select>
+        
+        <select id="sortOption" class="filter-select">
+          <option value="role">Trier par rôle</option>
+          <option value="name">Trier par nom</option>
+        </select>
+      </div>
+      
+      <div>
+        <button id="exportBtn" class="btn">
+          <i class="fas fa-download"></i> Exporter
+        </button>
+        <button id="resetBtn" class="btn" style="background: var(--dps-color);">
+          <i class="fas fa-redo"></i> Réinitialiser
+        </button>
+      </div>
+    </div>
+    
+    <!-- Summary -->
+    <div class="summary">
+      <div class="summary-item tank">
+        <div class="summary-value" id="tankCount">0</div>
+        <div class="summary-label">Tanks</div>
+      </div>
+      <div class="summary-item heal">
+        <div class="summary-value" id="healCount">0</div>
+        <div class="summary-label">Heals</div>
+      </div>
+      <div class="summary-item dps">
+        <div class="summary-value" id="dpsCount">0</div>
+        <div class="summary-label">DPS</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-value" id="totalCount">0</div>
+        <div class="summary-label">Total</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-value" id="selectedCount">0</div>
+        <div class="summary-label">Items sélectionnés</div>
+      </div>
+    </div>
+
     <!-- Overview horizontal -->
     <section class="overview">
       <h2>Overview</h2>
       <div id="overview-categories" class="overview-categories">
-        <!-- Colonnes -->
+        <!-- Colonnes générées dynamiquement -->
       </div>
     </section>
 
     <section class="profiles">
       <h2>Profils</h2>
-      <div class="profiles-grid">
-        <!-- Profils -->
+      <div id="profiles-grid" class="profiles-grid">
+        <!-- Profils générés dynamiquement -->
+        <div class="empty-state" id="empty-state" style="display: none;">
+          <i class="fas fa-users"></i>
+          <h3>Aucune donnée disponible</h3>
+          <p>Les données de la feuille Google Sheets sont vides ou n'ont pas encore été chargées.</p>
+        </div>
       </div>
     </section>
   </main>
@@ -39,8 +111,9 @@
     </div>
   </div>
 
-  <!-- Btn -->
+  <!-- Buttons -->
   <button id="openPanel" class="btn floating">Show MSOD Runes</button>
+  <button id="fetch-data-btn" class="btn fetch-data floating">Fetch Sheet Data</button>
 
   <script src="script.js"></script>
 </body>
