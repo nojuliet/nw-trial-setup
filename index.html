@@ -18,39 +18,39 @@
     <section class="config-panel">
       <h2>Configuration</h2>
       <div class="config-group">
-        <label for="sheet-id">ID de la Google Sheet</label>
+        <label for="sheet-id">Google Sheet ID</label>
         <input type="text" id="sheet-id" placeholder="Your Sheet ID" value="">
       </div>
-      <button id="fetch-data" class="btn">Récupérer les données</button>
+      <button id="fetch-data" class="btn">Retrieve data</button>
     </section>
     
     <!-- Status message -->
     <div id="status" class="status-loading">
-      <i class="fas fa-spinner fa-spin"></i> En attente de chargement des données...
+      <i class="fas fa-spinner fa-spin"></i> Waiting for data loading...
     </div>
     
     <!-- Controls -->
     <div class="controls">
       <div class="filter-options">
         <select id="roleFilter" class="filter-select">
-          <option value="all">Tous les rôles</option>
+          <option value="all">All rôles</option>
           <option value="Tank">Tank</option>
           <option value="Heal">Heal</option>
           <option value="DPS">DPS</option>
         </select>
         
         <select id="sortOption" class="filter-select">
-          <option value="role">Trier par rôle</option>
-          <option value="name">Trier par nom</option>
+          <option value="role">Sort by role</option>
+          <option value="name">Sort by nom</option>
         </select>
       </div>
       
       <div>
         <button id="exportBtn" class="btn">
-          <i class="fas fa-download"></i> Exporter
+          <i class="fas fa-download"></i> Export
         </button>
         <button id="resetBtn" class="btn" style="background: var(--dps-color);">
-          <i class="fas fa-redo"></i> Réinitialiser
+          <i class="fas fa-redo"></i> Reset
         </button>
       </div>
     </div>
@@ -93,8 +93,8 @@
         <!-- Profils générés dynamiquement -->
         <div class="empty-state" id="empty-state" style="display: none;">
           <i class="fas fa-users"></i>
-          <h3>Aucune donnée disponible</h3>
-          <p>Les données de la feuille Google Sheets sont vides ou n'ont pas encore été chargées.</p>
+          <h3>No data available</h3>
+          <p>The data on the Google Sheets sheet is empty or has not yet been loaded.</p>
         </div>
       </div>
     </section>

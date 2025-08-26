@@ -46,11 +46,11 @@ function fetchData() {
   const sheetId = document.getElementById('sheet-id').value;
   
   if (!sheetId) {
-    setStatus('Veuillez entrer un ID de Google Sheet', 'error');
+    setStatus('Please enter a google sheet ID', 'error');
     return;
   }
   
-  setStatus('Chargement des données...', 'loading');
+  setStatus('loading data...', 'loading');
   
   const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
   const url = base; // Vous pouvez ajouter le nom de feuille si nécessaire
@@ -58,14 +58,14 @@ function fetchData() {
   fetch(url)
     .then(response => {
       if (!response.ok) {
-        throw new Error('Erreur de réseau: ' + response.status);
+        throw new Error('network error: ' + response.status);
       }
       return response.text();
     })
     .then(text => {
       const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/s);
       if (!match || !match[1]) {
-        throw new Error('Format de réponse inattendu');
+        throw new Error('Unexpected response format');
       }
       
       const json = JSON.parse(match[1]);
@@ -117,23 +117,23 @@ function fetchData() {
         cardsContainer.innerHTML = `
           <div class="empty-state">
             <i class="fas fa-exclamation-circle"></i>
-            <h3>Aucune donnée valide</h3>
-            <p>La feuille Google Sheets ne contient aucune donnée valide ou les rôles ne sont pas reconnus.</p>
+            <h3>no valid data</h3>
+            <p>The Google Sheets sheet does not contain any valid data or the roles are not recognized.</p>
           </div>
         `;
-        setStatus('Aucune donnée valide trouvée dans la feuille', 'error');
+        setStatus('No valid data found in the sheet', 'error');
       } else if (validMembersCount === 0) {
         cardsContainer.innerHTML = `
           <div class="empty-state">
             <i class="fas fa-exclamation-circle"></i>
-            <h3>Aucun membre valide</h3>
-            <p>La feuille contient des données mais aucun membre avec un rôle valide (Tank, Heal, DPS).</p>
+            <h3>No valid members</h3>
+            <p>The sheet contains data but no member with a valid role (Tank, Heal, DPS).</p>
           </div>
         `;
-        setStatus('Aucun membre valide trouvé dans la feuille', 'error');
+        setStatus('No valid members found in the sheet', 'error');
       } else {
         updateSummary();
-        setStatus(`Données chargées avec succès - ${validMembersCount} membre(s) valide(s)`, 'success');
+        setStatus(`Data loaded successfully - ${validMembersCount} membre(s) valide(s)`, 'success');
       }
     })
     .catch(err => {
@@ -142,8 +142,8 @@ function fetchData() {
       document.getElementById('profiles-grid').innerHTML = `
         <div class="empty-state">
           <i class="fas fa-exclamation-triangle"></i>
-          <h3>Erreur de chargement</h3>
-          <p>Impossible de charger les données depuis Google Sheets. Vérifiez l'ID de la feuille.</p>
+          <h3>Error loading</h3>
+          <p>Unable to load data from google sheets. Check sheet ID.</p>
         </div>
       `;
     });
