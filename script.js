@@ -8,7 +8,7 @@ const CATEGORY_ICONS = {
   'Mounts': 'fa-horse',
   'Auras': 'fa-magic',
   'Sets': 'fa-layer-group',
-  'Gear': 'fa-helmet-battle'
+  'Gear': 'fa-shield'
 };
 
 let roleCounters = { Tank: 0, Heal: 0, DPS: 0 };
