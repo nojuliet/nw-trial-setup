@@ -165,6 +165,10 @@ main {
 .profile h3 {
   margin-top: 0;
   color: var(--primary);
+  font-size: 1.2em;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .category {

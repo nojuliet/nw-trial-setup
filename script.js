@@ -1,8 +1,9 @@
 // Configuration
-const COLUMNS = ['Class','Companions','Artefacts','Mounts','Auras','Sets','Gear'];
+const COLUMNS = ['Class','Character name','Companions','Artefacts','Mounts','Auras','Sets','Gear'];
 
 // Icônes pour les catégories
 const CATEGORY_ICONS = {
+  'Character name': 'fa-user',
   'Companions': 'fa-dragon',
   'Artefacts': 'fa-gem',
   'Mounts': 'fa-horse',
@@ -53,7 +54,7 @@ function fetchData() {
   setStatus('loading data...', 'loading');
   
   const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-  const url = base; // Vous pouvez ajouter le nom de feuille si nécessaire
+  const url = base;
   
   fetch(url)
     .then(response => {
@@ -100,7 +101,7 @@ function fetchData() {
         hasValidData = true;
         formData.push(rowData);
         
-        // Normaliser le rôle pour gérer la casse (TANK -> Tank, HEAL -> Heal)
+        // Normaliser le rôle pour gérer la casse
         const rawRole = rowData['Class'] || '';
         const role = normalizeRole(rawRole);
         
@@ -157,12 +158,21 @@ function createCard(role, data) {
   card.className = `profile ${role.toLowerCase()}`;
   card.dataset.role = role;
 
+  // Créer le titre avec le nom du personnage si disponible
   const title = document.createElement('h3');
-  title.textContent = `${role} ${roleIndex}`;
+  const characterName = data['Character name'] || '';
+  
+  if (characterName && characterName.trim() !== '') {
+    title.textContent = `${characterName} (${role} ${roleIndex})`;
+    card.dataset.nickname = characterName;
+  } else {
+    title.textContent = `${role} ${roleIndex}`;
+  }
+  
   card.appendChild(title);
 
   COLUMNS.forEach(col => {
-    if (col === 'Class') return;
+    if (col === 'Class' || col === 'Character name') return;
     
     if (data[col] && data[col].toString().trim() !== '') {
       const categoryDiv = document.createElement('div');
@@ -326,8 +336,12 @@ function sortCards() {
   cards.sort((a, b) => {
     if (sortValue === 'role') {
       return a.dataset.role.localeCompare(b.dataset.role);
-    } else {
+    } else if (sortValue === 'name') {
       return a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent);
+    } else if (sortValue === 'nickname') {
+      const nicknameA = a.dataset.nickname || '';
+      const nicknameB = b.dataset.nickname || '';
+      return nicknameA.localeCompare(nicknameB);
     }
   });
   
