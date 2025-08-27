@@ -54,7 +54,7 @@ function fetchData() {
   setStatus('loading data...', 'loading');
   
   const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-  const url = base;
+  const url = base; // Vous pouvez ajouter le nom de feuille si nécessaire
   
   fetch(url)
     .then(response => {
@@ -159,6 +159,9 @@ function createCard(role, data) {
   card.dataset.role = role;
 
   // Créer le titre avec le nom du personnage si disponible
+  const titleContainer = document.createElement('div');
+  titleContainer.className = 'profile-header';
+  
   const title = document.createElement('h3');
   const characterName = data['Character name'] || '';
   
@@ -169,7 +172,19 @@ function createCard(role, data) {
     title.textContent = `${role} ${roleIndex}`;
   }
   
-  card.appendChild(title);
+  titleContainer.appendChild(title);
+  
+  // Ajouter le bouton de copie
+  const copyButton = document.createElement('button');
+  copyButton.className = 'copy-btn';
+  copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+  copyButton.title = 'Copy selected items to clipboard';
+  copyButton.addEventListener('click', () => {
+    copySelectedItems(card, characterName || `${role} ${roleIndex}`);
+  });
+  
+  titleContainer.appendChild(copyButton);
+  card.appendChild(titleContainer);
 
   COLUMNS.forEach(col => {
     if (col === 'Class' || col === 'Character name') return;
@@ -212,6 +227,34 @@ function createCard(role, data) {
   });
 
   return card;
+}
+
+function copySelectedItems(card, profileName) {
+  const checkboxes = card.querySelectorAll('input[type="checkbox"]:checked');
+  if (checkboxes.length === 0) {
+    alert('No items selected for ' + profileName);
+    return;
+  }
+  
+  const items = Array.from(checkboxes).map(checkbox => checkbox.dataset.item);
+  const textToCopy = `${profileName}: ${items.join(', ')}`;
+  
+  // Utiliser l'API Clipboard pour copier le texte
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    // Afficher une confirmation visuelle
+    const copyBtn = card.querySelector('.copy-btn');
+    const originalHTML = copyBtn.innerHTML;
+    copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+    copyBtn.style.color = 'var(--heal-color)';
+    
+    setTimeout(() => {
+      copyBtn.innerHTML = originalHTML;
+      copyBtn.style.color = '';
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy text: ', err);
+    alert('Failed to copy text to clipboard');
+  });
 }
 
 function updateOverview(item, category, profile, checked) {
