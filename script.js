@@ -134,7 +134,7 @@ function fetchData() {
         setStatus('No valid members found in the sheet', 'error');
       } else {
         updateSummary();
-        setStatus(`Data loaded successfully - ${validMembersCount} membre(s) valide(s)`, 'success');
+        setStatus(`Data loaded successfully - ${validMembersCount} valid(s) member(s)`, 'success');
       }
     })
     .catch(err => {
